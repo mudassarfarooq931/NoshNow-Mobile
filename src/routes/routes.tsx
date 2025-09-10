@@ -28,10 +28,10 @@ const Routes: React.FC<IProps> = React.memo(({}) => {
         }}
       >
         <ToastView />
-        <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
+        <StatusBar backgroundColor={colors.primary} barStyle="dark-content" />
         {true ? (
           <>
-            <SafeAreaView style={{ backgroundColor: colors.white }} />
+            <SafeAreaView style={{ backgroundColor: colors.primary }} />
             <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
               <MainNav />
             </SafeAreaView>

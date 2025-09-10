@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home, List, User } from 'lucide-react-native';
 import React from 'react';
 import { HomeScreen, OrderScreen, ProfileScreen } from '../screens';
+import { colors } from '../constants';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -12,14 +13,14 @@ const CustomBottomTab = () => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: '#FFFFFF',
-          borderTopWidth: 1,
-          borderTopColor: '#E5E5EA',
+          backgroundColor: colors.white,
+          // borderTopWidth: 1,
+          // borderTopColor: '#E5E5EA',
           paddingBottom: 5,
           paddingTop: 5,
           height: 60,
         },
-        tabBarActiveTintColor: '#007AFF',
+        tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: '#8E8E93',
         tabBarLabelStyle: {
           fontSize: 12,
