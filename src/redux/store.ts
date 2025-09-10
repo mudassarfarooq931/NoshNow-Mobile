@@ -1,13 +1,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import 'immutable';
-import {persistReducer, persistStore} from 'redux-persist';
+import { persistReducer, persistStore } from 'redux-persist';
 import toastReducer from './slice/toast-slice';
-
+import cartReducer from './slice/cart-slice';
+import authReducer from './slice/auth-slice';
 
 const rootReducer = combineReducers({
   toast: toastReducer,
-  
+  cart: cartReducer,
+  auth: authReducer,
 });
 
 const persistConfig = {
@@ -32,4 +34,4 @@ export const storeState = store.getState;
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 
-export default {store, persistor};
+export default { store, persistor };

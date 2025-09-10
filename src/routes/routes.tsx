@@ -13,10 +13,14 @@ import { colors } from '../constants';
 import { RootState } from '../redux/store';
 import AuthNav from './auth/auth.routes';
 import MainNav from './main/main.routes';
-interface IProps {}
-const mapStateToProps = (state: RootState) => ({});
+interface IProps {
+  isAuthenticated: boolean;
+}
+const mapStateToProps = (state: RootState) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
 
-const Routes: React.FC<IProps> = React.memo(({}) => {
+const Routes: React.FC<IProps> = React.memo(({ isAuthenticated }) => {
   return (
     <>
       <NavigationContainer
@@ -29,7 +33,7 @@ const Routes: React.FC<IProps> = React.memo(({}) => {
       >
         <ToastView />
         <StatusBar backgroundColor={colors.primary} barStyle="dark-content" />
-        {true ? (
+        {isAuthenticated ? (
           <>
             <SafeAreaView style={{ backgroundColor: colors.primary }} />
             <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>

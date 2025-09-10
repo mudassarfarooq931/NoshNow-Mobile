@@ -8,18 +8,42 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Alert,
 } from 'react-native';
 import React, { useState } from 'react';
 import { colors, ScreenEnum } from '../../../constants';
 import { navigate } from '../../../../root-navigation';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../redux/slice/auth-slice';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
 
   const handleLogin = () => {
-    // Handle login logic here
-    console.log('Login pressed');
+    // Basic validation
+    if (!email.trim() || !password.trim()) {
+      Alert.alert('Error', 'Please fill in all fields');
+      return;
+    }
+
+    // Simulate login API call
+    const user = {
+      id: '1',
+      name: 'John Doe',
+      email: email,
+      phone: '+92 300 1234567',
+      address: '123 Main Street, Karachi',
+    };
+
+    const token = 'mock-jwt-token-' + Date.now();
+
+    // Dispatch login action
+    dispatch(login({ user, token }));
+
+    // Navigate to main app
+    navigate('BottomTabNav');
   };
 
   const handleSignUp = () => {

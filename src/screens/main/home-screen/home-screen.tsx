@@ -9,9 +9,29 @@ import {
   FlatList,
   Dimensions,
 } from 'react-native';
-import { User } from 'lucide-react-native';
+import { ShoppingCart, Search } from 'lucide-react-native';
 import { colors } from '../../../constants';
 import SectionList from 'react-native-tabs-section-list';
+import { useNavigation } from '@react-navigation/native';
+import { MainNavigationProp } from '../../../routes/param-list';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store';
+
+interface FoodItem {
+  title: string;
+  price: number;
+  description: string;
+  image: any;
+}
+
+interface Product {
+  id: string;
+  title: string;
+  price: number;
+  description: string;
+  image: any;
+  category: string;
+}
 
 const { width } = Dimensions.get('window');
 
@@ -276,14 +296,47 @@ const sections = [
 ];
 
 const HomeScreen = () => {
+  const navigation = useNavigation<MainNavigationProp<'BottomTabNav'>>();
+  const { totalItems } = useSelector((state: RootState) => state.cart);
+
+  const handleProductPress = (item: FoodItem) => {
+    const product = {
+      id: item.title,
+      title: item.title,
+      price: item.price,
+      description: item.description,
+      image: item.image,
+
+      category: 'Food',
+    };
+
+    navigation.navigate('ProductDetails', { product });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>NoshNow</Text>
-        <TouchableOpacity style={styles.profileIcon}>
-          <User size={24} color={colors.white} />
-        </TouchableOpacity>
+        <View style={styles.headerIcons}>
+          <TouchableOpacity
+            style={styles.searchIcon}
+            onPress={() => navigation.navigate('Search')}
+          >
+            <Search size={24} color={colors.white} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.cartIcon}
+            onPress={() => navigation.navigate('Cart')}
+          >
+            <ShoppingCart size={24} color={colors.white} />
+            {totalItems > 0 && (
+              <View style={styles.cartBadge}>
+                <Text style={styles.cartBadgeText}>{totalItems}</Text>
+              </View>
+            )}
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Slider */}
@@ -335,7 +388,11 @@ const HomeScreen = () => {
             </View>
           )}
           renderItem={({ item }) => (
-            <View style={styles.itemContainer}>
+            <TouchableOpacity
+              style={styles.itemContainer}
+              onPress={() => handleProductPress(item)}
+              activeOpacity={0.7}
+            >
               <Image source={item.image} style={styles.itemImage} />
               <View style={styles.itemDetails}>
                 <View style={styles.itemRow}>
@@ -344,7 +401,7 @@ const HomeScreen = () => {
                 </View>
                 <Text style={styles.itemDescription}>{item.description}</Text>
               </View>
-            </View>
+            </TouchableOpacity>
           )}
         />
       </View>
@@ -365,7 +422,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   headerTitle: { fontSize: 22, fontWeight: 'bold', color: colors.white },
-  profileIcon: { padding: 8 },
+  headerIcons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  searchIcon: { padding: 8, marginRight: 8 },
+  cartIcon: { padding: 8, position: 'relative' },
+  cartBadge: {
+    position: 'absolute',
+    top: 2,
+    right: 2,
+    backgroundColor: colors.red,
+    borderRadius: 10,
+    minWidth: 20,
+    height: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cartBadgeText: {
+    color: colors.white,
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
 
   // Slider
   sliderWrapper: {
