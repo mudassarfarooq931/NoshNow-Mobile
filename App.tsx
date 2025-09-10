@@ -1,12 +1,10 @@
-
 import React from 'react';
-import {MenuProvider} from 'react-native-popup-menu';
-import {ToastProvider} from 'react-native-toast-notifications';
-import {Provider} from 'react-redux';
-import {PersistGate} from 'redux-persist/integration/react';
+import { MenuProvider } from 'react-native-popup-menu';
+import { ToastProvider } from 'react-native-toast-notifications';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import store from './src/redux/store';
-import { Text, View } from 'react-native';
-import ToastView from './src/components/toast-view';
+import Routes from './src/routes/routes';
 
 const App = () => {
   return (
@@ -14,10 +12,7 @@ const App = () => {
       <Provider store={store.store}>
         <PersistGate loading={null} persistor={store.persistor}>
           <MenuProvider>
-            <View>
-              <Text>Welcome </Text>
-              <ToastView/>
-            </View>
+            <Routes />
           </MenuProvider>
         </PersistGate>
       </Provider>

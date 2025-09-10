@@ -1,0 +1,116 @@
+export const colors = {
+  // primary :"#273e65",
+  // primary :'#25366F',
+  // primary :'#1e3189',
+  // primary :'#091197',
+  // primary :'#1E2381',
+  // primary: '#21215D',
+  primary: '#F97316',
+  // primary: '#0D8FB5',
+  _primary: '#00499D',
+  _primary2: '#0056B9',
+
+  // primary :'#0F1FA5',
+  // primary :'#092FB6',
+
+  primaryLight: '#cabefa',
+  skeletonBackground: '#bfd1e0',
+  primaryLighter: '#F6FAFF',
+  primaryLightest: '#F6FAFF',
+  middlePrimary: '#1c195e',
+  primaryDark: '#067ea1',
+  primaryDarker: '#004FA0',
+  colorNoti: '#cf0404',
+  colorNotiLight: '#f54747',
+  senderColor: '#EBE2C6',
+  msgReciverColor: 'white',
+  annoucementCard: '#00D4E3',
+  headingDark: '#d1920d',
+  dropShadow: '#0000002',
+  progressDark: '#043A8C',
+  blue_darker: '#0A47A4',
+  progressLight: '#EEFEFF',
+  tableLight: '#EAF6F7',
+  lightestGreen: '#FAF9F6',
+  lightGrey: '#2b2a2a',
+  onSurfaceLight: '#999999',
+  border: '#BDD2E6',
+  system: '#7fb5bf',
+  cardColor: '#646464',
+
+  yellow_darkest: '#E28200',
+  yellow_dark: '#EAB71B',
+  yellow_light: '#EBE2C6',
+  yellow_lighter: '#FFFDF7',
+  green_dark: '#4EB27B',
+  red_dark: '#C72525',
+  blue_dark: '#005DBB',
+
+  secondary: '#B4D1E6',
+  secondaryLight: '#e2f1f8',
+  secondaryDark: '#808e95',
+
+  white: '#ffffff',
+  // white: '#E7EAED',
+  offWhite: '#f8f8ff',
+  transparent: '#0000009',
+
+  black: '#000000',
+  metallicBlack: '#333333',
+
+  lightestGray: '#7E7E7E',
+  gray: '#696969',
+  lightGray: '#A7A7A7',
+  lighterGray: '#F5F5F5',
+  darkGray: '#A8A8A8',
+  darkerGray: '#999999',
+  skyblue: '#a796e0',
+
+  strokeColor: '#d26317',
+  statColor: '#8e4311',
+  telepsychColor: '#3A8565',
+  aocColor: '#44759B',
+  nhColor: '#ffc105',
+  yellow: 'yellow',
+  bell: '#FAF704',
+  background: '#f0f4f8',
+  highlightColor: '#e0e0e0',
+  skeltonBackground: '#c9c9c9',
+  pink: '#e6196e',
+  red: '#ff0000',
+  stampMsgColor: '#FDBF2E',
+  green: '#2BB773',
+};
+
+//light--------------------------------------------
+export const lightThemeColors = {
+  primary: colors.primary,
+  primaryDark: colors.primaryDark,
+  background: colors.background,
+  whiteBlack: colors.white,
+  blackWhite: colors.black,
+  primaryWhite: colors.primary,
+  whitePrimary: colors.white,
+};
+
+//dark---------------------------------------------
+export const darkThemeColors = {
+  primary: colors.black,
+  primaryDark: colors.primaryDark,
+  background: colors.background,
+  whiteBlack: colors.black,
+  blackWhite: colors.black,
+  primaryWhite: colors.white,
+  whitePrimary: colors.primary,
+};
+
+//pink---------------------------------------------
+export const pinkThemeColors = {
+  primary: colors.pink,
+  primaryDark: colors.primaryDark,
+  background: colors.background,
+  whiteBlack: colors.black,
+  blackWhite: colors.black,
+  primaryWhite: colors.white,
+  whitePrimary: colors.primary,
+};
