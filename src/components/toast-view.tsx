@@ -4,6 +4,7 @@ import Toast, { ToastType } from 'react-native-toast-notifications';
 import { connect } from 'react-redux';
 import store, { RootState } from '../redux/store';
 import { setToastMessage } from '../redux/slice/toast-slice';
+import { colors } from '../constants';
 
 //---------------------
 // Redux mapping
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'darkblue',
+    backgroundColor: colors.primary,
     marginTop: 15,
     zIndex: 99999999,
   },
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'darkblue',
+    backgroundColor: colors.primary,
     zIndex: 99999999,
   },
   darkTextStyle: {

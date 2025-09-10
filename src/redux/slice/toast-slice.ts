@@ -1,10 +1,9 @@
-
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { ToastState } from '../states';
 
 //-------------------------------
 const initialState: ToastState = {
-  message: 'Welcome to the toast.',
+  message: '',
 };
 
 //-----------------------------
@@ -21,5 +20,5 @@ const toastSlice = createSlice({
 });
 
 const toastReducer = toastSlice.reducer;
-export const {setToastMessage} = toastSlice.actions;
+export const { setToastMessage } = toastSlice.actions;
 export default toastReducer;
