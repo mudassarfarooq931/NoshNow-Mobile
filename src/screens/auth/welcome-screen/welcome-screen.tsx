@@ -45,7 +45,7 @@ const WelcomeScreen = () => {
           style={styles.loginButton}
           activeOpacity={0.7}
           onPress={() => {
-            navigate(ScreenEnum.Login);
+            navigate('Login');
           }}
         >
           <Text style={styles.loginButtonText}>Get Started</Text>

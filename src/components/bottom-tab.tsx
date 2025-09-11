@@ -1,7 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home, List, User } from 'lucide-react-native';
+import { Home, List, User, Heart } from 'lucide-react-native';
 import React from 'react';
 import { HomeScreen, OrderScreen, ProfileScreen } from '../screens';
+import FavoritesScreen from '../screens/main/favorites-screen/favorites-screen';
 import { colors } from '../constants';
 
 const { Navigator, Screen } = createBottomTabNavigator();
@@ -49,6 +50,16 @@ const CustomBottomTab = () => {
           tabBarLabel: 'Orders',
           tabBarIcon: ({ focused, color, size }) => (
             <List color={color} size={focused ? 26 : 24} />
+          ),
+        }}
+      />
+      <Screen
+        name="Favorites"
+        component={FavoritesScreen}
+        options={{
+          tabBarLabel: 'Favorites',
+          tabBarIcon: ({ focused, color, size }) => (
+            <Heart color={color} size={focused ? 26 : 24} />
           ),
         }}
       />
