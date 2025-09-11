@@ -24,6 +24,7 @@ import { MainNavigationProp } from '../../../routes/param-list';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { addToCart, CartItem } from '../../../redux/slice/cart-slice';
+import SkeletonLoader from '../../../components/skeleton-loader';
 
 const SearchScreen = () => {
   const navigation = useNavigation<MainNavigationProp<'BottomTabNav'>>();
@@ -31,8 +32,18 @@ const SearchScreen = () => {
   const { totalItems } = useSelector((state: RootState) => state.cart);
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // 1 second loading
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Mock product data for search
   const allProducts = [
@@ -202,6 +213,43 @@ const SearchScreen = () => {
     </TouchableOpacity>
   );
 
+  if (isLoading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <SkeletonLoader width={30} height={30} borderRadius={15} />
+          <SkeletonLoader width="70%" height={50} borderRadius={25} />
+          <SkeletonLoader width={30} height={30} borderRadius={15} />
+        </View>
+        <View style={styles.content}>
+          <SkeletonLoader
+            width="90%"
+            height={20}
+            style={{ marginBottom: 20, marginLeft: 20 }}
+          />
+          {[1, 2, 3, 4, 5].map(item => (
+            <View key={item} style={styles.searchItemSkeleton}>
+              <SkeletonLoader width={80} height={80} borderRadius={10} />
+              <View style={styles.searchItemInfoSkeleton}>
+                <SkeletonLoader
+                  width="70%"
+                  height={16}
+                  style={{ marginBottom: 8 }}
+                />
+                <SkeletonLoader
+                  width="50%"
+                  height={14}
+                  style={{ marginBottom: 8 }}
+                />
+                <SkeletonLoader width={60} height={14} />
+              </View>
+            </View>
+          ))}
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
@@ -210,7 +258,7 @@ const SearchScreen = () => {
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-          <ArrowLeft size={24} color={colors.metallicBlack} />
+          <ArrowLeft size={24} color={colors.white} />
         </TouchableOpacity>
         <View style={styles.searchContainer}>
           <Search size={20} color={colors.gray} style={styles.searchIcon} />
@@ -278,10 +326,11 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: colors.primary,
     paddingHorizontal: 20,
     paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   backButton: {
     padding: 8,
@@ -448,6 +497,21 @@ const styles = StyleSheet.create({
   loadingText: {
     fontSize: 16,
     color: colors.gray,
+  },
+  searchItemSkeleton: {
+    flexDirection: 'row',
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lighterGray,
+  },
+  searchItemInfoSkeleton: {
+    flex: 1,
+    marginLeft: 15,
+    justifyContent: 'center',
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 20,
   },
 });
 

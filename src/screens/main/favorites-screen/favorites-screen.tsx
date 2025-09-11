@@ -16,11 +16,22 @@ import { MainNavigationProp } from '../../../routes/param-list';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { addToCart, CartItem } from '../../../redux/slice/cart-slice';
+import SkeletonLoader from '../../../components/skeleton-loader';
 
 const FavoritesScreen = () => {
   const navigation = useNavigation<MainNavigationProp<'BottomTabNav'>>();
   const dispatch = useDispatch();
   const { totalItems } = useSelector((state: RootState) => state.cart);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate loading
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // 1 second loading
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Mock favorites data
   const [favorites, setFavorites] = useState([
@@ -170,6 +181,45 @@ const FavoritesScreen = () => {
     </View>
   );
 
+  if (isLoading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <SkeletonLoader width={150} height={18} />
+          <SkeletonLoader width={30} height={30} borderRadius={15} />
+        </View>
+        <ScrollView style={styles.content}>
+          {[1, 2, 3, 4].map(item => (
+            <View key={item} style={styles.favoriteItemSkeleton}>
+              <SkeletonLoader width={80} height={80} borderRadius={10} />
+              <View style={styles.favoriteItemInfoSkeleton}>
+                <SkeletonLoader
+                  width="70%"
+                  height={16}
+                  style={{ marginBottom: 8 }}
+                />
+                <SkeletonLoader
+                  width="90%"
+                  height={14}
+                  style={{ marginBottom: 8 }}
+                />
+                <SkeletonLoader
+                  width="50%"
+                  height={14}
+                  style={{ marginBottom: 8 }}
+                />
+                <View style={styles.favoriteItemActionsSkeleton}>
+                  <SkeletonLoader width={100} height={30} borderRadius={15} />
+                  <SkeletonLoader width={30} height={30} borderRadius={15} />
+                </View>
+              </View>
+            </View>
+          ))}
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
@@ -179,7 +229,7 @@ const FavoritesScreen = () => {
           style={styles.cartButton}
           onPress={() => navigation.navigate('Cart')}
         >
-          <ShoppingCart size={24} color={colors.primary} />
+          <ShoppingCart size={24} color={colors.white} />
           {totalItems > 0 && (
             <View style={styles.cartBadge}>
               <Text style={styles.cartBadgeText}>{totalItems}</Text>
@@ -199,7 +249,7 @@ const FavoritesScreen = () => {
           </Text>
           <TouchableOpacity
             style={styles.browseButton}
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => navigation.navigate('BottomTabNav')}
           >
             <Text style={styles.browseButtonText}>Browse Menu</Text>
           </TouchableOpacity>
@@ -222,15 +272,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: colors.primary,
     paddingHorizontal: 20,
     paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors.metallicBlack,
+    color: colors.white,
   },
   cartButton: {
     position: 'relative',
@@ -388,6 +439,23 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 16,
     fontWeight: '500',
+  },
+  favoriteItemSkeleton: {
+    flexDirection: 'row',
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lighterGray,
+  },
+  favoriteItemInfoSkeleton: {
+    flex: 1,
+    marginLeft: 15,
+    justifyContent: 'center',
+  },
+  favoriteItemActionsSkeleton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10,
   },
 });
 

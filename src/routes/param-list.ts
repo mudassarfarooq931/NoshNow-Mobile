@@ -49,6 +49,25 @@ export type MainNavParamList = {
   };
   Favorites: undefined;
   Search: undefined;
+  RestaurantDetails: {
+    restaurant: {
+      id: string;
+      name: string;
+      rating: number;
+      deliveryTime: string;
+      image: any;
+      category: string;
+      isFavorite: boolean;
+      items: Array<{
+        id: string;
+        name: string;
+        price: number;
+        description: string;
+        image: any;
+      }>;
+    };
+    selectedCategory?: string | null;
+  };
 };
 
 export type MainRouteProp<T extends keyof MainNavParamList> = RouteProp<

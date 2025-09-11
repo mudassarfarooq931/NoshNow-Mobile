@@ -12,6 +12,7 @@ import OrderSuccessScreen from '../../screens/main/order-success-screen/order-su
 import TrackOrderScreen from '../../screens/main/track-order-screen/track-order-screen';
 import FavoritesScreen from '../../screens/main/favorites-screen/favorites-screen';
 import SearchScreen from '../../screens/main/search-screen/search-screen';
+import RestaurantDetailsScreen from '../../screens/main/restaurant-details-screen/restaurant-details-screen';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect } from 'react';
 
@@ -56,6 +57,7 @@ const MainNav = ({ isAuthenticated }: IProps) => {
         <Screen name="TrackOrder" component={TrackOrderScreen} />
         <Screen name="Favorites" component={FavoritesScreen} />
         <Screen name="Search" component={SearchScreen} />
+        <Screen name="RestaurantDetails" component={RestaurantDetailsScreen} />
       </Navigator>
       <ToastView />
     </>

@@ -44,7 +44,12 @@ const cartSlice = createSlice({
         existingItem.quantity += action.payload.quantity;
         existingItem.totalPrice = calculateItemTotal(existingItem);
       } else {
-        state.items.push(action.payload);
+        // Ensure totalPrice is calculated correctly for new items
+        const newItem = {
+          ...action.payload,
+          totalPrice: calculateItemTotal(action.payload),
+        };
+        state.items.push(newItem);
       }
 
       state.totalItems = state.items.reduce(
