@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -27,6 +27,7 @@ import {
   clearCart,
   CartItem,
 } from '../../../redux/slice/cart-slice';
+import SkeletonLoader from '../../../components/skeleton-loader';
 
 const CartScreen = () => {
   const navigation = useNavigation<MainNavigationProp<'BottomTabNav'>>();
@@ -36,6 +37,16 @@ const CartScreen = () => {
     totalItems,
     totalPrice,
   } = useSelector((state: RootState) => state.cart);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate loading
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // 1 second loading
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleUpdateQuantity = (itemId: string, newQuantity: number) => {
     dispatch(updateQuantity({ id: itemId, quantity: newQuantity }));
@@ -76,7 +87,7 @@ const CartScreen = () => {
   };
 
   const calculateSubtotal = () => {
-    return cartItems.reduce((total, item) => total + item.totalPrice, 0);
+    return totalPrice; // Use Redux state totalPrice
   };
 
   const calculateDeliveryFee = () => {
@@ -151,6 +162,44 @@ const CartScreen = () => {
     </View>
   );
 
+  if (isLoading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <SkeletonLoader width={30} height={30} borderRadius={15} />
+          <SkeletonLoader width={150} height={18} />
+          <SkeletonLoader width={30} height={30} borderRadius={15} />
+        </View>
+        <ScrollView style={styles.content}>
+          {[1, 2, 3].map(item => (
+            <View key={item} style={styles.cartItemSkeleton}>
+              <SkeletonLoader width={80} height={80} borderRadius={10} />
+              <View style={styles.itemInfoSkeleton}>
+                <SkeletonLoader
+                  width="70%"
+                  height={16}
+                  style={{ marginBottom: 8 }}
+                />
+                <SkeletonLoader
+                  width="50%"
+                  height={14}
+                  style={{ marginBottom: 8 }}
+                />
+                <View style={styles.itemActionsSkeleton}>
+                  <SkeletonLoader width={100} height={30} borderRadius={15} />
+                  <SkeletonLoader width={30} height={30} borderRadius={15} />
+                </View>
+              </View>
+            </View>
+          ))}
+        </ScrollView>
+        <View style={styles.footer}>
+          <SkeletonLoader width="100%" height={50} borderRadius={25} />
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
@@ -159,7 +208,7 @@ const CartScreen = () => {
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-          <ArrowLeft size={24} color={colors.metallicBlack} />
+          <ArrowLeft size={24} color={colors.white} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>My Cart</Text>
         {cartItems.length > 0 && (
@@ -244,10 +293,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: colors.primary,
     paddingHorizontal: 20,
     paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   backButton: {
     padding: 5,
@@ -255,11 +305,11 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors.metallicBlack,
+    color: colors.white,
   },
   clearText: {
     fontSize: 16,
-    color: colors.red,
+    color: colors.white,
     fontWeight: '500',
   },
   placeholder: {
@@ -427,6 +477,28 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  cartItemSkeleton: {
+    flexDirection: 'row',
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lighterGray,
+  },
+  itemInfoSkeleton: {
+    flex: 1,
+    marginLeft: 15,
+    justifyContent: 'center',
+  },
+  itemActionsSkeleton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  footer: {
+    padding: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#f0f0f0',
   },
 });
 

@@ -3184,6 +3184,7 @@ __metadata:
     react-native-linear-gradient: ^2.8.3
     react-native-maps: ^1.26.1
     react-native-popup-menu: ^0.18.0
+    react-native-responsive-screen: ^1.4.2
     react-native-safe-area-context: ^5.6.1
     react-native-screens: ^4.16.0
     react-native-skeleton-placeholder: ^5.2.4
@@ -8449,6 +8450,15 @@ __metadata:
   version: 0.18.0
   resolution: "react-native-popup-menu@npm:0.18.0"
   checksum: 5b7888fb61d045e8954f58871ff8aa0a99393c095a7d4e22709a7943ade8ca0405c8e519345aa856ddcc0eb0a961b33291ccaac6ebcef5e19a25157ba62e3b36
+  languageName: node
+  linkType: hard
+
+"react-native-responsive-screen@npm:^1.4.2":
+  version: 1.4.2
+  resolution: "react-native-responsive-screen@npm:1.4.2"
+  peerDependencies:
+    react-native: ">=0.35"
+  checksum: f854d42e2fdfde80f31b9d3eab3bc9665cf312e5b3953b4a14dc36dc27b2dbe03b8520880ea267376eea7b664af7eb900ae88ef4004a65820b48ad9ac2fc5feb
   languageName: node
   linkType: hard
 

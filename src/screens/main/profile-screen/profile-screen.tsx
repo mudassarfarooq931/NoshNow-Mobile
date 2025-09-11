@@ -33,6 +33,7 @@ import { MainNavigationProp } from '../../../routes/param-list';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { logout, updateProfile } from '../../../redux/slice/auth-slice';
+import SkeletonLoader from '../../../components/skeleton-loader';
 
 const ProfileScreen = () => {
   const navigation = useNavigation<MainNavigationProp<'BottomTabNav'>>();
@@ -40,12 +41,22 @@ const ProfileScreen = () => {
   const { user } = useSelector((state: RootState) => state.auth);
 
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [editForm, setEditForm] = useState({
     name: user?.name || '',
     email: user?.email || '',
     phone: user?.phone || '',
     address: user?.address || '',
   });
+
+  // Simulate loading
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // 1 second loading
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleLogout = () => {
     Alert.alert('Logout', 'Are you sure you want to logout?', [
@@ -86,7 +97,7 @@ const ProfileScreen = () => {
       id: 1,
       title: 'My Orders',
       icon: <CreditCard size={24} color={colors.primary} />,
-      onPress: () => navigation.navigate('Orders'),
+      onPress: () => Alert.alert('Orders', 'Order history coming soon!'),
     },
     {
       id: 2,
@@ -97,7 +108,7 @@ const ProfileScreen = () => {
     {
       id: 3,
       title: 'Notifications',
-      icon: <Bell size={24} color={colors.orange} />,
+      icon: <Bell size={24} color={colors.primary} />,
       onPress: () =>
         Alert.alert('Notifications', 'Notification settings coming soon!'),
     },
@@ -110,7 +121,7 @@ const ProfileScreen = () => {
     {
       id: 5,
       title: 'Help & Support',
-      icon: <HelpCircle size={24} color={colors.blue} />,
+      icon: <HelpCircle size={24} color={colors.primary} />,
       onPress: () => Alert.alert('Help & Support', 'Help center coming soon!'),
     },
     {
@@ -121,6 +132,54 @@ const ProfileScreen = () => {
         Alert.alert('Privacy Policy', 'Privacy policy coming soon!'),
     },
   ];
+
+  if (isLoading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <SkeletonLoader width={100} height={18} />
+          <SkeletonLoader width={30} height={30} borderRadius={15} />
+        </View>
+        <ScrollView style={styles.content}>
+          {/* Profile Info Skeleton */}
+          <View style={styles.profileInfoSkeleton}>
+            <SkeletonLoader width={100} height={100} borderRadius={50} />
+            <View style={styles.profileDetailsSkeleton}>
+              <SkeletonLoader
+                width="80%"
+                height={24}
+                style={{ marginBottom: 8 }}
+              />
+              <SkeletonLoader
+                width="60%"
+                height={16}
+                style={{ marginBottom: 4 }}
+              />
+              <SkeletonLoader width="70%" height={16} />
+            </View>
+            <SkeletonLoader width={100} height={35} borderRadius={18} />
+          </View>
+
+          {/* Menu Items Skeleton */}
+          <View style={styles.menuItemsSkeleton}>
+            {[1, 2, 3, 4, 5, 6].map(item => (
+              <View key={item} style={styles.menuItemSkeleton}>
+                <View style={styles.menuItemLeftSkeleton}>
+                  <SkeletonLoader width={24} height={24} borderRadius={12} />
+                  <SkeletonLoader
+                    width="70%"
+                    height={18}
+                    style={{ marginLeft: 15 }}
+                  />
+                </View>
+                <SkeletonLoader width={20} height={20} borderRadius={10} />
+              </View>
+            ))}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -312,15 +371,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: colors.primary,
     paddingHorizontal: 20,
     paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors.metallicBlack,
+    color: colors.white,
   },
   logoutButton: {
     padding: 5,
@@ -501,6 +561,46 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.white,
     fontWeight: 'bold',
+  },
+  profileInfoSkeleton: {
+    alignItems: 'center',
+    paddingVertical: 30,
+    backgroundColor: colors.white,
+    borderRadius: 15,
+    marginVertical: 20,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  profileDetailsSkeleton: {
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  menuItemsSkeleton: {
+    backgroundColor: colors.white,
+    borderRadius: 15,
+    marginBottom: 20,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  menuItemSkeleton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lighterGray,
+  },
+  menuItemLeftSkeleton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
   },
 });
 

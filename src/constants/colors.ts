@@ -80,6 +80,8 @@ export const colors = {
   red: '#ff0000',
   stampMsgColor: '#FDBF2E',
   green: '#2BB773',
+  orange: '#FF8C00',
+  blue: '#007AFF',
 };
 
 //light--------------------------------------------

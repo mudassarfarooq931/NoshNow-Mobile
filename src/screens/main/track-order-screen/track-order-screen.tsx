@@ -23,17 +23,31 @@ import {
 } from 'lucide-react-native';
 import { colors } from '../../../constants';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
-import { MainNavParamList } from '../../../routes/param-list';
+import {
+  MainNavParamList,
+  MainNavigationProp,
+} from '../../../routes/param-list';
+import SkeletonLoader from '../../../components/skeleton-loader';
 
 type TrackOrderScreenRouteProp = RouteProp<MainNavParamList, 'TrackOrder'>;
 
 const TrackOrderScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<MainNavigationProp<'BottomTabNav'>>();
   const route = useRoute<TrackOrderScreenRouteProp>();
   const { orderId } = route.params;
 
   const [orderStatus, setOrderStatus] = useState('Preparing');
   const [estimatedTime, setEstimatedTime] = useState(25);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate loading
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // 1 second loading
+
+    return () => clearTimeout(timer);
+  }, []);
   const [currentStep, setCurrentStep] = useState(1);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -166,6 +180,39 @@ const TrackOrderScreen = () => {
     </View>
   );
 
+  if (isLoading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <SkeletonLoader width={30} height={30} borderRadius={15} />
+          <SkeletonLoader width={150} height={18} />
+          <SkeletonLoader width={30} height={30} borderRadius={15} />
+        </View>
+        <ScrollView style={styles.content}>
+          <View style={styles.statusContainerSkeleton}>
+            <SkeletonLoader width={100} height={100} borderRadius={50} />
+            <SkeletonLoader
+              width="80%"
+              height={24}
+              style={{ marginTop: 20, marginBottom: 10 }}
+            />
+            <SkeletonLoader
+              width="60%"
+              height={16}
+              style={{ marginBottom: 30 }}
+            />
+          </View>
+          <View style={styles.trackingSkeleton}>
+            <SkeletonLoader width="100%" height={200} borderRadius={15} />
+          </View>
+          <View style={styles.deliveryInfoSkeleton}>
+            <SkeletonLoader width="100%" height={150} borderRadius={15} />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
@@ -174,13 +221,13 @@ const TrackOrderScreen = () => {
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-          <ArrowLeft size={24} color={colors.metallicBlack} />
+          <ArrowLeft size={24} color={colors.white} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Track Order</Text>
         <TouchableOpacity onPress={handleRefresh} style={styles.refreshButton}>
           <RefreshCw
             size={24}
-            color={colors.primary}
+            color={colors.white}
             style={isRefreshing ? styles.refreshing : null}
           />
         </TouchableOpacity>
@@ -296,10 +343,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: colors.primary,
     paddingHorizontal: 20,
     paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   backButton: {
     padding: 5,
@@ -307,7 +355,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors.metallicBlack,
+    color: colors.white,
   },
   refreshButton: {
     padding: 5,
@@ -494,6 +542,16 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  statusContainerSkeleton: {
+    alignItems: 'center',
+    paddingVertical: 40,
+  },
+  trackingSkeleton: {
+    marginVertical: 20,
+  },
+  deliveryInfoSkeleton: {
+    marginBottom: 20,
   },
 });
 

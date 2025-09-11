@@ -21,11 +21,22 @@ import {
 import { colors } from '../../../constants';
 import { useNavigation } from '@react-navigation/native';
 import { MainNavigationProp } from '../../../routes/param-list';
+import SkeletonLoader from '../../../components/skeleton-loader';
 
 const OrderScreen = () => {
   const navigation = useNavigation<MainNavigationProp<'BottomTabNav'>>();
 
   const [selectedFilter, setSelectedFilter] = useState('All');
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate loading
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // 1 second loading
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Mock order data
   const orders = [
@@ -213,13 +224,92 @@ const OrderScreen = () => {
     </View>
   );
 
+  if (isLoading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <SkeletonLoader width={150} height={18} />
+          <SkeletonLoader width={30} height={30} borderRadius={15} />
+        </View>
+        <ScrollView style={styles.content}>
+          {/* Filter tabs skeleton */}
+          <View style={styles.filterContainerSkeleton}>
+            {['All', 'Pending', 'Preparing', 'Delivered'].map(item => (
+              <SkeletonLoader
+                key={item}
+                width={80}
+                height={35}
+                borderRadius={18}
+                style={{ marginRight: 12 }}
+              />
+            ))}
+          </View>
+
+          {/* Order items skeleton */}
+          {[1, 2, 3, 4].map(item => (
+            <View key={item} style={styles.orderItemSkeleton}>
+              {/* Order header */}
+              <View style={styles.orderHeaderSkeleton}>
+                <View style={styles.orderIdSkeleton}>
+                  <SkeletonLoader width={120} height={16} />
+                  <SkeletonLoader width={80} height={14} />
+                </View>
+                <SkeletonLoader width={70} height={24} borderRadius={12} />
+              </View>
+
+              {/* Order items list skeleton */}
+              <View style={styles.orderItemsListSkeleton}>
+                {[1, 2].map(subItem => (
+                  <View key={subItem} style={styles.orderItemRowSkeleton}>
+                    <SkeletonLoader width={50} height={50} borderRadius={8} />
+                    <View style={styles.orderItemDetailsSkeleton}>
+                      <SkeletonLoader
+                        width="70%"
+                        height={16}
+                        style={{ marginBottom: 6 }}
+                      />
+                      <SkeletonLoader
+                        width="50%"
+                        height={14}
+                        style={{ marginBottom: 4 }}
+                      />
+                      <SkeletonLoader width={60} height={14} />
+                    </View>
+                    <SkeletonLoader width={50} height={16} />
+                  </View>
+                ))}
+              </View>
+
+              {/* Order footer */}
+              <View style={styles.orderFooterSkeleton}>
+                <View style={styles.orderTotalSkeleton}>
+                  <SkeletonLoader width={100} height={16} />
+                  <SkeletonLoader width={80} height={18} />
+                </View>
+                <View style={styles.orderActionsSkeleton}>
+                  <SkeletonLoader
+                    width={80}
+                    height={32}
+                    borderRadius={16}
+                    style={{ marginRight: 8 }}
+                  />
+                  <SkeletonLoader width={60} height={32} borderRadius={16} />
+                </View>
+              </View>
+            </View>
+          ))}
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>My Orders</Text>
         <TouchableOpacity style={styles.filterButton}>
-          <Filter size={24} color={colors.primary} />
+          <Filter size={24} color={colors.white} />
         </TouchableOpacity>
       </View>
 
@@ -284,15 +374,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: colors.primary,
     paddingHorizontal: 20,
     paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors.metallicBlack,
+    color: colors.white,
   },
   filterButton: {
     padding: 5,
@@ -449,6 +540,64 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.gray,
     textAlign: 'center',
+  },
+  orderItemSkeleton: {
+    backgroundColor: colors.white,
+    borderRadius: 12,
+    padding: 15,
+    marginBottom: 15,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  orderHeaderSkeleton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  orderFooterSkeleton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  filterContainerSkeleton: {
+    flexDirection: 'row',
+    marginVertical: 20,
+    paddingHorizontal: 4,
+  },
+  orderIdSkeleton: {
+    flex: 1,
+  },
+  orderItemsListSkeleton: {
+    marginVertical: 15,
+    paddingVertical: 10,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: colors.lighterGray,
+  },
+  orderItemRowSkeleton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
+  orderItemDetailsSkeleton: {
+    flex: 1,
+    marginLeft: 12,
+  },
+  orderTotalSkeleton: {
+    flex: 1,
+  },
+  orderActionsSkeleton: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
 

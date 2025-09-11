@@ -25,6 +25,7 @@ import { MainNavigationProp } from '../../../routes/param-list';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { clearCart, CartItem } from '../../../redux/slice/cart-slice';
+import SkeletonLoader from '../../../components/skeleton-loader';
 
 const CheckoutScreen = () => {
   const navigation = useNavigation<MainNavigationProp<'BottomTabNav'>>();
@@ -43,6 +44,16 @@ const CheckoutScreen = () => {
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('cash');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate loading
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // 1 second loading
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const calculateSubtotal = () => {
     return cartItems.reduce(
@@ -133,6 +144,55 @@ const CheckoutScreen = () => {
     </View>
   );
 
+  if (isLoading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <SkeletonLoader width={30} height={30} borderRadius={15} />
+          <SkeletonLoader width={150} height={18} />
+          <SkeletonLoader width={30} height={30} borderRadius={15} />
+        </View>
+        <ScrollView style={styles.content}>
+          <View style={styles.sectionSkeleton}>
+            <SkeletonLoader
+              width="100%"
+              height={150}
+              borderRadius={15}
+              style={{ marginBottom: 20 }}
+            />
+          </View>
+          <View style={styles.sectionSkeleton}>
+            <SkeletonLoader
+              width="100%"
+              height={200}
+              borderRadius={15}
+              style={{ marginBottom: 20 }}
+            />
+          </View>
+          <View style={styles.sectionSkeleton}>
+            <SkeletonLoader
+              width="100%"
+              height={100}
+              borderRadius={15}
+              style={{ marginBottom: 20 }}
+            />
+          </View>
+          <View style={styles.sectionSkeleton}>
+            <SkeletonLoader
+              width="100%"
+              height={150}
+              borderRadius={15}
+              style={{ marginBottom: 20 }}
+            />
+          </View>
+        </ScrollView>
+        <View style={styles.footer}>
+          <SkeletonLoader width="100%" height={50} borderRadius={25} />
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
@@ -141,7 +201,7 @@ const CheckoutScreen = () => {
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-          <ArrowLeft size={24} color={colors.metallicBlack} />
+          <ArrowLeft size={24} color={colors.white} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Checkout</Text>
         <View style={styles.placeholder} />
@@ -328,10 +388,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: colors.primary,
     paddingHorizontal: 20,
     paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   backButton: {
     padding: 5,
@@ -339,7 +400,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors.metallicBlack,
+    color: colors.white,
   },
   placeholder: {
     width: 34,
@@ -487,6 +548,9 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  sectionSkeleton: {
+    marginVertical: 10,
   },
 });
 
