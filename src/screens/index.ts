@@ -6,6 +6,22 @@ import HomeScreen from './main/home-screen/home-screen';
 import OrderScreen from './main/order-screen/order-screen';
 import ProfileScreen from './main/profile-screen/profile-screen';
 
+// Admin screens
+import {
+  AdminDashboard,
+  SuperAdminDashboard,
+  AddRestaurant,
+  ManageRestaurants,
+  AddProduct,
+  ManageProducts,
+  ManageAdmins,
+  AddAdmin,
+  AdminProfile,
+  NotificationScreen,
+  EarningsScreen,
+  OrdersScreen,
+} from './admin';
+
 export {
   WelcomeScreen,
   LoginScreen,
@@ -14,4 +30,17 @@ export {
   OrderScreen,
   CartScreen,
   HomeScreen,
+  // Admin exports
+  AdminDashboard,
+  SuperAdminDashboard,
+  AddRestaurant,
+  ManageRestaurants,
+  AddProduct,
+  ManageProducts,
+  ManageAdmins,
+  AddAdmin,
+  AdminProfile,
+  NotificationScreen,
+  EarningsScreen,
+  OrdersScreen,
 };

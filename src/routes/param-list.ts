@@ -68,6 +68,19 @@ export type MainNavParamList = {
     };
     selectedCategory?: string | null;
   };
+  // Admin screens
+  AdminDashboard: undefined;
+  SuperAdminDashboard: undefined;
+  AddRestaurant: undefined;
+  ManageRestaurants: undefined;
+  AddProduct: undefined;
+  ManageProducts: undefined;
+  ManageAdmins: undefined;
+  AddAdmin: undefined;
+  AdminProfile: undefined;
+  NotificationScreen: undefined;
+  EarningsScreen: undefined;
+  OrdersScreen: undefined;
 };
 
 export type MainRouteProp<T extends keyof MainNavParamList> = RouteProp<
