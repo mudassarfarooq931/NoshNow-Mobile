@@ -1,0 +1,12 @@
+export { default as AdminDashboard } from './admin-dashboard/admin-dashboard';
+export { default as SuperAdminDashboard } from './superadmin-dashboard/superadmin-dashboard';
+export { default as AddRestaurant } from './add-restaurant/add-restaurant';
+export { default as ManageRestaurants } from './manage-restaurants/manage-restaurants';
+export { default as AddProduct } from './add-product/add-product';
+export { default as ManageProducts } from './manage-products/manage-products';
+export { default as ManageAdmins } from './manage-admins/manage-admins';
+export { default as AddAdmin } from './add-admin/add-admin';
+export { default as AdminProfile } from './admin-profile/admin-profile';
+export { default as NotificationScreen } from './notification-screen/notification-screen';
+export { default as EarningsScreen } from './earnings-screen/earnings-screen';
+export { default as OrdersScreen } from './orders-screen/orders-screen';
