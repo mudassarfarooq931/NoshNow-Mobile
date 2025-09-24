@@ -1,38 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  TouchableOpacity,
-  ScrollView,
+  BarChart3,
+  Crown,
+  DollarSign,
+  LogOut,
+  Package,
+  Settings,
+  Shield,
+  ShoppingCart,
+  Store,
+  UserCheck,
+  Users,
+} from 'lucide-react-native';
+import React, { useEffect, useState } from 'react';
+import {
   Alert,
   Dimensions,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import {
-  Plus,
-  Store,
-  Package,
-  Users,
-  DollarSign,
-  TrendingUp,
-  Settings,
-  LogOut,
-  BarChart3,
-  ShoppingCart,
-  Clock,
-  Star,
-  Crown,
-  Shield,
-  UserCheck,
-} from 'lucide-react-native';
-import { colors } from '../../../constants';
-import { useNavigation } from '@react-navigation/native';
-import { MainNavigationProp } from '../../../routes/param-list';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../../redux/store';
-import { logout } from '../../../redux/slice/auth-slice';
+import { useDispatch, useSelector } from 'react-redux';
 import SkeletonLoader from '../../../components/skeleton-loader';
+import { colors } from '../../../constants';
+import { logout } from '../../../redux/slice/auth-slice';
+import { RootState } from '../../../redux/store';
 
 const { width } = Dimensions.get('window');
 

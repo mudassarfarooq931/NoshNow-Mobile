@@ -22,6 +22,14 @@ import {
   OrdersScreen,
 } from './admin';
 
+// Rider screens
+import {
+  RiderDashboard,
+  RiderProfile,
+  RiderOrders,
+  RiderEarnings,
+} from './rider';
+
 export {
   WelcomeScreen,
   LoginScreen,
@@ -43,4 +51,9 @@ export {
   NotificationScreen,
   EarningsScreen,
   OrdersScreen,
+  // Rider exports
+  RiderDashboard,
+  RiderProfile,
+  RiderOrders,
+  RiderEarnings,
 };
