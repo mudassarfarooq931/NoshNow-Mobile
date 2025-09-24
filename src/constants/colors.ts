@@ -82,6 +82,12 @@ export const colors = {
   green: '#2BB773',
   orange: '#FF8C00',
   blue: '#007AFF',
+
+  // Status colors
+  success: '#2BB773',
+  warning: '#FF8C00',
+  error: '#ff0000',
+  info: '#007AFF',
 };
 
 //light--------------------------------------------

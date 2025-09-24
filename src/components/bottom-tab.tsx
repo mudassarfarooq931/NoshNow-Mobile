@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home, List, User, Heart } from 'lucide-react-native';
 import React from 'react';
 import { HomeScreen, OrderScreen, ProfileScreen } from '../screens';
-import FavoritesScreen from '../screens/main/favorites-screen/favorites-screen';
+import FavoritesScreen from '../screens/user/main/favorites-screen/favorites-screen';
 import { colors } from '../constants';
 
 const { Navigator, Screen } = createBottomTabNavigator();

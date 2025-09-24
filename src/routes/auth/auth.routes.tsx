@@ -2,8 +2,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { ScreenEnum } from '../../constants';
 import { LoginScreen, SignupScreen, WelcomeScreen } from '../../screens';
-import LocationScreen from '../../screens/auth/location-screen/location-screen';
-import MapScreen from '../../screens/auth/map-screen/map-screen';
+import LocationScreen from '../../screens/user/auth/location-screen/location-screen';
+import MapScreen from '../../screens/user/auth/map-screen/map-screen';
 import { AuthNavParamList } from '../param-list';
 
 interface IProps {}

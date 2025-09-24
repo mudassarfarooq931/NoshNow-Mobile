@@ -8,31 +8,44 @@ import { MainNavigationProp } from '../routes/param-list';
 // Import admin screens
 import {
   AdminDashboard,
-  SuperAdminDashboard,
   AddRestaurant,
   ManageRestaurants,
   AddProduct,
   ManageProducts,
-  ManageAdmins,
-  AddAdmin,
   AdminProfile,
   NotificationScreen,
   EarningsScreen,
   OrdersScreen,
-} from '../screens/admin';
+} from '../screens/admin/main';
+
+// Import superadmin screens
+import {
+  SuperAdminDashboard,
+  SuperAdminProfile,
+  ManageAdmins,
+  AddAdmin,
+} from '../screens/superadmin/main';
+
+// Import rider screens
+import {
+  RiderDashboard,
+  RiderProfile,
+  RiderOrders,
+  RiderEarnings,
+} from '../screens/rider/main';
 
 // Import regular app screens
-import HomeScreen from '../screens/main/home-screen/home-screen';
-import CartScreen from '../screens/main/cart-screen/cart-screen';
-import OrderScreen from '../screens/main/order-screen/order-screen';
-import ProfileScreen from '../screens/main/profile-screen/profile-screen';
-import FavoritesScreen from '../screens/main/favorites-screen/favorites-screen';
-import SearchScreen from '../screens/main/search-screen/search-screen';
-import RestaurantDetailsScreen from '../screens/main/restaurant-details-screen/restaurant-details-screen';
-import ProductDetailsScreen from '../screens/main/product-details-screen/product-details-screen';
-import CheckoutScreen from '../screens/main/checkout-screen/checkout-screen';
-import OrderSuccessScreen from '../screens/main/order-success-screen/order-success-screen';
-import TrackOrderScreen from '../screens/main/track-order-screen/track-order-screen';
+import HomeScreen from '../screens/user/main/home-screen/home-screen';
+import CartScreen from '../screens/user/main/cart-screen/cart-screen';
+import OrderScreen from '../screens/user/main/order-screen/order-screen';
+import ProfileScreen from '../screens/user/main/profile-screen/profile-screen';
+import FavoritesScreen from '../screens/user/main/favorites-screen/favorites-screen';
+import SearchScreen from '../screens/user/main/search-screen/search-screen';
+import RestaurantDetailsScreen from '../screens/user/main/restaurant-details-screen/restaurant-details-screen';
+import ProductDetailsScreen from '../screens/user/main/product-details-screen/product-details-screen';
+import CheckoutScreen from '../screens/user/main/checkout-screen/checkout-screen';
+import OrderSuccessScreen from '../screens/user/main/order-success-screen/order-success-screen';
+import TrackOrderScreen from '../screens/user/main/track-order-screen/track-order-screen';
 
 import { colors } from '../constants';
 import {
@@ -46,6 +59,9 @@ import {
   Package,
   Shield,
   Crown,
+  Navigation,
+  DollarSign,
+  List,
 } from 'lucide-react-native';
 
 const Tab = createBottomTabNavigator();
@@ -76,7 +92,11 @@ const AdminStack = () => {
           <Stack.Screen name="ManageProducts" component={ManageProducts} />
         </>
       )}
-      <Stack.Screen name="AdminProfile" component={AdminProfile} />
+      {user?.role === 'superadmin' ? (
+        <Stack.Screen name="SuperAdminProfile" component={SuperAdminProfile} />
+      ) : (
+        <Stack.Screen name="AdminProfile" component={AdminProfile} />
+      )}
       <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
       <Stack.Screen name="EarningsScreen" component={EarningsScreen} />
       <Stack.Screen name="OrdersScreen" component={OrdersScreen} />
@@ -125,6 +145,22 @@ const AdminsStack = () => {
     >
       <Stack.Screen name="ManageAdmins" component={ManageAdmins} />
       <Stack.Screen name="AddAdmin" component={AddAdmin} />
+    </Stack.Navigator>
+  );
+};
+
+// Rider Stack Navigator
+const RiderStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        cardStyle: { backgroundColor: colors.background },
+      }}
+    >
+      <Stack.Screen name="RiderDashboard" component={RiderDashboard} />
+      <Stack.Screen name="RiderOrders" component={RiderOrders} />
+      <Stack.Screen name="RiderEarnings" component={RiderEarnings} />
     </Stack.Navigator>
   );
 };
@@ -293,7 +329,71 @@ const AdminTabNavigator = () => {
       )}
       <Tab.Screen
         name="Profile"
-        component={AdminProfile}
+        component={
+          user?.role === 'superadmin' ? SuperAdminProfile : AdminProfile
+        }
+        options={{
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+// Rider Tab Navigator
+const RiderTabNavigator = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: colors.white,
+          borderTopWidth: 1,
+          borderTopColor: colors.lighterGray,
+          paddingBottom: 5,
+          paddingTop: 5,
+          height: 60,
+        },
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.gray,
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: '500',
+        },
+      }}
+    >
+      <Tab.Screen
+        name="Dashboard"
+        component={RiderStack}
+        options={{
+          tabBarLabel: 'Dashboard',
+          tabBarIcon: ({ color, size }) => (
+            <Navigation size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Orders"
+        component={RiderOrders}
+        options={{
+          tabBarLabel: 'Orders',
+          tabBarIcon: ({ color, size }) => <List size={size} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="Earnings"
+        component={RiderEarnings}
+        options={{
+          tabBarLabel: 'Earnings',
+          tabBarIcon: ({ color, size }) => (
+            <DollarSign size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={RiderProfile}
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
@@ -310,6 +410,11 @@ const RoleBasedNavigation = () => {
   // Show admin interface for superadmin and admin users
   if (user?.role === 'superadmin' || user?.role === 'admin') {
     return <AdminTabNavigator />;
+  }
+
+  // Show rider interface for rider users
+  if (user?.role === 'rider') {
+    return <RiderTabNavigator />;
   }
 
   // Show regular app interface for regular users

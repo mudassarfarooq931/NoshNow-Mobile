@@ -1,46 +1,89 @@
-import LoginScreen from './auth/login-screen/login-screen';
-import SignupScreen from './auth/signup-screen/signup-screen';
-import WelcomeScreen from './auth/welcome-screen/welcome-screen';
-import CartScreen from './main/cart-screen/cart-screen';
-import HomeScreen from './main/home-screen/home-screen';
-import OrderScreen from './main/order-screen/order-screen';
-import ProfileScreen from './main/profile-screen/profile-screen';
+// User screens (auth and main)
+import {
+  LoginScreen,
+  SignupScreen,
+  WelcomeScreen,
+  CartScreen,
+  HomeScreen,
+  OrderScreen,
+  ProfileScreen,
+  FavoritesScreen,
+  SearchScreen,
+  RestaurantDetailsScreen,
+  ProductDetailsScreen,
+  CheckoutScreen,
+  OrderSuccessScreen,
+  TrackOrderScreen,
+  LocationScreen,
+  MapScreen,
+} from './user';
 
 // Admin screens
 import {
   AdminDashboard,
-  SuperAdminDashboard,
   AddRestaurant,
   ManageRestaurants,
   AddProduct,
   ManageProducts,
-  ManageAdmins,
-  AddAdmin,
   AdminProfile,
   NotificationScreen,
   EarningsScreen,
   OrdersScreen,
 } from './admin';
 
+// SuperAdmin screens
+import {
+  SuperAdminDashboard,
+  SuperAdminProfile,
+  ManageAdmins,
+  AddAdmin,
+} from './superadmin';
+
+// Rider screens
+import {
+  RiderDashboard,
+  RiderProfile,
+  RiderOrders,
+  RiderEarnings,
+} from './rider';
+
 export {
+  // User auth exports
   WelcomeScreen,
   LoginScreen,
   SignupScreen,
-  ProfileScreen,
-  OrderScreen,
-  CartScreen,
+  LocationScreen,
+  MapScreen,
+  // User main exports
   HomeScreen,
+  CartScreen,
+  OrderScreen,
+  ProfileScreen,
+  FavoritesScreen,
+  SearchScreen,
+  RestaurantDetailsScreen,
+  ProductDetailsScreen,
+  CheckoutScreen,
+  OrderSuccessScreen,
+  TrackOrderScreen,
   // Admin exports
   AdminDashboard,
-  SuperAdminDashboard,
   AddRestaurant,
   ManageRestaurants,
   AddProduct,
   ManageProducts,
-  ManageAdmins,
-  AddAdmin,
   AdminProfile,
   NotificationScreen,
   EarningsScreen,
   OrdersScreen,
+  // SuperAdmin exports
+  SuperAdminDashboard,
+  SuperAdminProfile,
+  ManageAdmins,
+  AddAdmin,
+  // Rider exports
+  RiderDashboard,
+  RiderProfile,
+  RiderOrders,
+  RiderEarnings,
 };

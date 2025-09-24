@@ -1,2 +1,2 @@
-// Admin main screens
+// Rider main screens
 export * from './main';
