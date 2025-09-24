@@ -8,18 +8,23 @@ import { MainNavigationProp } from '../routes/param-list';
 // Import admin screens
 import {
   AdminDashboard,
-  SuperAdminDashboard,
   AddRestaurant,
   ManageRestaurants,
   AddProduct,
   ManageProducts,
-  ManageAdmins,
-  AddAdmin,
   AdminProfile,
   NotificationScreen,
   EarningsScreen,
   OrdersScreen,
-} from '../screens/admin';
+} from '../screens/admin/main';
+
+// Import superadmin screens
+import {
+  SuperAdminDashboard,
+  SuperAdminProfile,
+  ManageAdmins,
+  AddAdmin,
+} from '../screens/superadmin/main';
 
 // Import rider screens
 import {
@@ -27,20 +32,20 @@ import {
   RiderProfile,
   RiderOrders,
   RiderEarnings,
-} from '../screens/rider';
+} from '../screens/rider/main';
 
 // Import regular app screens
-import HomeScreen from '../screens/main/home-screen/home-screen';
-import CartScreen from '../screens/main/cart-screen/cart-screen';
-import OrderScreen from '../screens/main/order-screen/order-screen';
-import ProfileScreen from '../screens/main/profile-screen/profile-screen';
-import FavoritesScreen from '../screens/main/favorites-screen/favorites-screen';
-import SearchScreen from '../screens/main/search-screen/search-screen';
-import RestaurantDetailsScreen from '../screens/main/restaurant-details-screen/restaurant-details-screen';
-import ProductDetailsScreen from '../screens/main/product-details-screen/product-details-screen';
-import CheckoutScreen from '../screens/main/checkout-screen/checkout-screen';
-import OrderSuccessScreen from '../screens/main/order-success-screen/order-success-screen';
-import TrackOrderScreen from '../screens/main/track-order-screen/track-order-screen';
+import HomeScreen from '../screens/user/main/home-screen/home-screen';
+import CartScreen from '../screens/user/main/cart-screen/cart-screen';
+import OrderScreen from '../screens/user/main/order-screen/order-screen';
+import ProfileScreen from '../screens/user/main/profile-screen/profile-screen';
+import FavoritesScreen from '../screens/user/main/favorites-screen/favorites-screen';
+import SearchScreen from '../screens/user/main/search-screen/search-screen';
+import RestaurantDetailsScreen from '../screens/user/main/restaurant-details-screen/restaurant-details-screen';
+import ProductDetailsScreen from '../screens/user/main/product-details-screen/product-details-screen';
+import CheckoutScreen from '../screens/user/main/checkout-screen/checkout-screen';
+import OrderSuccessScreen from '../screens/user/main/order-success-screen/order-success-screen';
+import TrackOrderScreen from '../screens/user/main/track-order-screen/track-order-screen';
 
 import { colors } from '../constants';
 import {
@@ -87,7 +92,11 @@ const AdminStack = () => {
           <Stack.Screen name="ManageProducts" component={ManageProducts} />
         </>
       )}
-      <Stack.Screen name="AdminProfile" component={AdminProfile} />
+      {user?.role === 'superadmin' ? (
+        <Stack.Screen name="SuperAdminProfile" component={SuperAdminProfile} />
+      ) : (
+        <Stack.Screen name="AdminProfile" component={AdminProfile} />
+      )}
       <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
       <Stack.Screen name="EarningsScreen" component={EarningsScreen} />
       <Stack.Screen name="OrdersScreen" component={OrdersScreen} />
@@ -320,7 +329,9 @@ const AdminTabNavigator = () => {
       )}
       <Tab.Screen
         name="Profile"
-        component={AdminProfile}
+        component={
+          user?.role === 'superadmin' ? SuperAdminProfile : AdminProfile
+        }
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
